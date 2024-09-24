@@ -42,8 +42,16 @@ COPY config/php.ini ${PHP_INI_DIR}/conf.d/custom.ini
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Create image uploads directory
+# RUN mkdir -p /var/www/html/uploads
+
+# Set permissions for the uploads directory
+# RUN chmod -R 777 /var/www/html/uploads
+
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user
-RUN chown -R nobody:nobody /var/www/html /run /var/lib/nginx /var/log/nginx
+# RUN chown -R nobody:nobody /var/www/html/ /run /var/lib/nginx /var/log/nginx
+RUN mkdir /var/www/html/uploads
+RUN chown -Rv nobody:nobody /var/www/html/ /var/www/html/uploads /run /var/lib/nginx /var/log/nginx
 
 # Switch to use a non-root user from here on
 USER nobody
